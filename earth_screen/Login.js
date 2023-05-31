@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, } from "react";
 import { SafeAreaView, TouchableOpacity, View, Text, TextInput, KeyboardAvoidingView, Keyboard, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function Login({ navigation }) {
-    const userID = '';
-    const token = '';
     const [user, setUser] = useState("");
     const [pass, setPass] = useState("");
     const getLogin = () => {
@@ -13,10 +11,10 @@ export default function Login({ navigation }) {
             Alert.alert('Thông báo', 'Tài khoản hoặc mật khẩu không được bỏ trống !!!');
         }
         else {
-            fetch('http://116.108.153.26/Login?email=' + user + "&pass=" + pass, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
+            fetch('http://116.108.44.227/Login?email=' + user + "&pass=" + pass, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
                 .then((res) => res.json())
-                .then((resJson) => { storeData(resJson.userId, resJson.refreshToken); navigation.navigate('HomeScreen'); })
-                .catch((error) => { setPass(''); Alert.alert('Thông báo', 'Sai tài khoản hoặc mật khẩu !!!');console.log(1 + error) })
+                .then((resJson) => { storeData(resJson.userId, resJson.refreshToken); setUser(''); setPass(''); navigation.navigate('HomeScreen'); })
+                .catch(() => { setPass(''); Alert.alert('Thông báo', 'Sai tài khoản hoặc mật khẩu !!!'); })
         }
     };
 
@@ -26,17 +24,7 @@ export default function Login({ navigation }) {
             await AsyncStorage.setItem('@token', token);
         } catch (e) { }
     }
-    const getData = async () => {
-        try {
-            const value = await AsyncStorage.getItem('@storage_Key')
 
-            if (value !== null) {
-                // value previously stored
-            }
-        } catch (e) {
-            // error reading value
-        }
-    }
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
             <SafeAreaView style={{ marginLeft: 20, marginRight: 20 }} onTouchStart={Keyboard.dismiss}>

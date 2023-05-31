@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 //Login
@@ -19,6 +19,8 @@ import Chat from "./earth_screen/Chat";
 import Friend from "./earth_screen/Friend";
 import PostScreen from "./earth_screen/Post";
 import Setting from "./earth_screen/Setting";
+import Group from "./earth_screen/Group";
+import HomeGroup from "./earth_screen/HomeGroup";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createNativeStackNavigator();
@@ -76,32 +78,35 @@ function SettingScreen() {
       <HomeStack.Screen name="Acc" component={Acc} options={{ headerShown: false }} />
       <HomeStack.Screen name="Friend" component={Friend} options={{ title: 'Bạn bè', headerTintColor: '#dc3545', headerTitleStyle: { paddingLeft: 5, fontSize: 25, fontWeight: 'bold' } }} />
       <HomeStack.Screen name="Mess" component={Mess} options={{ headerShown: false }} />
+      <HomeStack.Screen name="Group" component={Group} options={{ headerShown:false }}/>
+      <HomeStack.Screen name="HomeGroup" component={HomeGroup} options={{ headerShown:false }}/>
     </HomeStack.Navigator>
   )
 }
 
-export default function App() {
-  const baseUrl = 'http://116.108.153.26/';
+export default function App({ navigation }) {
+  const baseUrl = 'http://116.108.44.227/';
+  const [userID, setUser] = useState('');
+  const [token, setToken] = useState('');
   const [listReq, setListReq] = useState([]);
   const [listNotify, setNotify] = useState([]);
 
-  useEffect(() => {
-    this.interval = setInterval(() => {
-      fetch(baseUrl + 'Newsfeed/Notify/561024910250495', { method: 'GET', headers: { 'Content-Type': 'application/json' } })
-        .then((res) => res.json())
-        .then((resJson) => { setNotify(resJson); })
-        .catch((error) => { console.log(error); });
-      fetch(baseUrl + 'Newsfeed/FriendRequest/561024910250495', { method: 'GET', headers: { 'Content-Type': 'application/json' } })
-        .then((res) => res.json())
-        .then((resJson) => { setListReq(resJson); })
-        .catch((error) => { console.log(error); })
-    }, 500);
-  }, []);
+  // useEffect(() => {
+  //   this.interval = setInterval(() => {
+  //     fetch(baseUrl + 'Newsfeed/Notify/' + userID, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
+  //       .then((res) => res.json())
+  //       .then((resJson) => { setNotify(resJson); });
+  //     fetch(baseUrl + 'Newsfeed/FriendRequest/' + userID, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
+  //       .then((res) => res.json())
+  //       .then((resJson) => { setListReq(resJson); });
+  //   }, 500);
+
+  // }, []);
 
   return (
     <NavigationContainer>
       <Tab.Navigator screenOptions={{ tabBarShowLabel: false }}>
-        <Tab.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false, tabBarStyle: { display: 'none' }, tabBarButton: () => null }} />
+        <Tab.Screen name={"LoginScreen"} component={LoginScreen} options={{ headerShown: false, tabBarStyle: { display: 'none' }, tabBarButton: () => null }} />
         <Tab.Screen name={"HomeScreen"} component={HomeScreen} options={{
           headerShown: false,
           tabBarIcon: ({ focused }) => (
@@ -116,13 +121,13 @@ export default function App() {
         }} />
         <Tab.Screen name={"FirendScreen"} component={FriendScreen} options={{
           headerShown: false,
-          tabBarBadge: (listReq.length > 0 ? listReq.length : undefined), tabBarIcon: ({ focused }) => (
+          /*tabBarBadge: (listReq.length > 0 ? listReq.length : undefined),*/ tabBarIcon: ({ focused }) => (
             <Ionicons name="people-circle-outline" size={40} color={focused ? '#dc3545' : 'black'} />
           )
         }} />
         <Tab.Screen name={"NotifyScreen"} component={NotifyScreen} options={{
           headerShown: false,
-          tabBarBadge: (listNotify.length > 0 ? listNotify.length : undefined), tabBarIcon: ({ focused }) => (
+          /*tabBarBadge: (listNotify.length > 0 ? listNotify.length : undefined),*/ tabBarIcon: ({ focused }) => (
             <Ionicons name="notifications-outline" size={40} color={focused ? '#dc3545' : 'black'} />
           )
         }} />

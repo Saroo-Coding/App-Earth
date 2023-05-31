@@ -5,14 +5,15 @@ import { useRoute } from '@react-navigation/native';
 
 export default function Chat({ navigation: { goBack }, navigation }) {
     const route = useRoute();
-    const baseUrl = 'http://116.108.153.26/';
+    const baseUrl = 'http://116.108.44.227/';
     const [data, setData] = useState([]);
     const [show, setShow] = useState('');
+    const fromUserId = route.params.fromUser;
     const toUserId = route.params.userId;
 
     useEffect(() => {
         this.interval = setInterval(() => {
-            const api = baseUrl + 'Account/Chating?from=' + '561024910250495' + "&to=" + toUserId;
+            const api = baseUrl + 'Account/Chating?from=' + fromUserId + "&to=" + toUserId;
             fetch(api, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
                 .then((res) => res.json())
                 .then((resJson) => { setData(resJson); })
@@ -27,7 +28,7 @@ export default function Chat({ navigation: { goBack }, navigation }) {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            fromUser: '561024910250495',
+            fromUser: fromUserId,
             toUser: toUserId,
             message1: show,
           })
@@ -70,7 +71,7 @@ export default function Chat({ navigation: { goBack }, navigation }) {
                     {data.map((item, index) => {
                         return (
                             <View key={index}>
-                                {item.fromUser == toUserId && item.toUser == '561024910250495' ?
+                                {item.fromUser == toUserId && item.toUser == fromUserId ?
                                     //incoming
                                     <View style={{ flexDirection: 'row', alignItems: 'flex-end', }}>
                                         <Image style={{ width: 45, height: 45, }} resizeMode="cover" source={{ uri: item.fromAva }}></Image>

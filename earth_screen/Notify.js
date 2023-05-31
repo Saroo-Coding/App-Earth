@@ -3,9 +3,12 @@ import { SafeAreaView, TouchableOpacity, View, Text, ScrollView, Image, Activity
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { IconButton } from "react-native-paper";
 import BottomSheet, { BottomSheetBackdrop, } from '@gorhom/bottom-sheet';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Notify({ navigation }) {
-    const baseUrl = 'http://116.108.153.26/';
+    const baseUrl = 'http://116.108.44.227/';
+    const [userID, setUser] = useState('');
+    const [token, setToken] = useState('');
     const [data, setData] = useState([]);
     const [isSet, setSetting] = useState([]);
     const [isLoad, setisLoad] = useState(true);
@@ -30,14 +33,33 @@ export default function Notify({ navigation }) {
     }, []);
 
     useEffect(() => {
+        getData();
+        api();
+    }, [userID,token]);
+
+    const getData = () => {
+        try {
+            AsyncStorage.getItem('@userID').then(id => {
+                if (id != null) { setUser(id); }
+            });
+            AsyncStorage.getItem('@token').then(tk => {
+                if (tk != null) { setToken(tk); }
+            });
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const api = () =>{
         this.interval = setInterval(() => {
-            const api = baseUrl + 'Newsfeed/Notify/561024910250495';
+            const api = baseUrl + 'Newsfeed/Notify/' + userID;
             fetch(api, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
                 .then((res) => res.json())
                 .then((resJson) => { setData(resJson); setisLoad(false); })
-                .catch((error) => { console.log(error); })
+                .catch((error) => {  })
         }, 500);
-    }, []);
+    }
 
     const _deleteNotify = (id) => {
         const api = baseUrl + 'Newsfeed/XoaNotify/' + id;

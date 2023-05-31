@@ -6,7 +6,7 @@ import { useRoute } from '@react-navigation/native';
 
 export default function Acc({ navigation: { goBack }, navigation }) {
     const route = useRoute();
-    const baseUrl = 'http://116.108.153.26/';
+    const baseUrl = 'http://116.108.44.227/';
     const autoWidth = Dimensions.get("window").width;
     const [data, setData] = useState([]);
     const [fri, setFri] = useState([]);
@@ -82,7 +82,11 @@ export default function Acc({ navigation: { goBack }, navigation }) {
                                     <TouchableOpacity>
                                         <Text style={{ fontSize: 20, }}>{item.fullName}</Text>
                                     </TouchableOpacity>
-                                    <Text style={{ color: '#9a9a9a', }}>{item.datepost} ' {item.accessModifier == 'Công khai' ? <Ionicons name="earth" size={20} /> : <Ionicons name="people" size={20} />}</Text>
+                                    <Text style={{ color: '#9a9a9a', }}>{item.datepost} ' 
+                                        {item.accessModifier == 'Công khai' ? <Ionicons name="earth" size={20} /> : null}
+                                        {item.accessModifier == 'Bạn bè' ? <Ionicons name="people" size={20} /> : null}
+                                        {item.accessModifier == 'Chỉ mình t' ? <Ionicons name="lock-closed" size={20} /> : null}
+                                    </Text>
                                 </View>
                             </TouchableOpacity>
                             <View style={{ marginTop: 5, }}>

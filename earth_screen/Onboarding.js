@@ -1,6 +1,22 @@
 import { TouchableOpacity, SafeAreaView, Text, View } from 'react-native';
+import React, { useEffect, } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Onboarding({ navigation }) {
+  const getData = () => {
+    AsyncStorage.getItem('@userID').then(id => {
+        if (id != null) { navigation.navigate('HomeScreen'); }
+    });
+    AsyncStorage.getItem('@token').then(tk => {
+        if (tk != null) { navigation.navigate('HomeScreen'); }
+    });
+}
+
+useEffect(() => {
+    getData();
+},[]);
+
+
   return (
     <SafeAreaView style={{ flex: 0.7, justifyContent: 'center' }}>
       <View style={{ flex: 0.7, alignItems: 'center', justifyContent: 'center', }}>

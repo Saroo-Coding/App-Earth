@@ -4,8 +4,10 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
 import { SelectList } from 'react-native-dropdown-select-list';
 import AutoHeightImage from 'react-native-auto-height-image';
+import { useRoute } from '@react-navigation/native';
 
 export default function Post() {
+    const route = useRoute();
     const [status, setStatus] = useState("");
     const list = [{ key: '1', value: 'Công khai' }, { key: '2', value: 'Bạn bè' }, { key: '3', value: 'Chỉ mình tôi' }];
     const [selectedImage, setSelectedImage] = useState(null);
@@ -28,9 +30,9 @@ export default function Post() {
             <ScrollView style={{ flex: 1, marginVertical: 7, marginHorizontal: 7, borderRadius: 5, backgroundColor: '#fff', padding: 10, }} showsVerticalScrollIndicator={false}>
                 <View >
                     <View style={{ flexDirection: 'row' }}>
-                        <Image style={{ width: 45, height: 45 }} resizeMode="cover" source={{ uri: 'http://ativn.edu.vn/wp-content/uploads/2018/03/user.png' }}></Image>
+                        <Image style={{ width: 45, height: 45,borderRadius:30 }} resizeMode="cover" source={{ uri: route.params.ava }}></Image>
                         <View style={{ marginLeft: 5, }}>
-                            <Text style={{ fontSize: 20, marginBottom: 7 }}>Cong Danh</Text>
+                            <Text style={{ fontSize: 20, marginBottom: 7 }}>{route.params.name}</Text>
                             <SelectList setSelected={(val) => setStatus(val)} data={list} save="value" boxStyles={{}} search={false} defaultOption={{ key: '1', value: 'Công khai' }}></SelectList>
                         </View>
                     </View>

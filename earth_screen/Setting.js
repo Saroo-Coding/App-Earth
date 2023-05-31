@@ -1,18 +1,49 @@
 import React, { useState, useEffect, } from "react";
-import { SafeAreaView, TouchableOpacity, View, Text, ScrollView, Image, ActivityIndicator, Dimensions, RefreshControl } from 'react-native';
+import { SafeAreaView, TouchableOpacity, View, Text, Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from '@expo/vector-icons/Ionicons'
 
 export default function Setting({ navigation }) {
-    const baseUrl = 'http://116.108.153.26/';
-    const autoWidth = Dimensions.get("window").width;
+    const [userID, setUser] = useState('');
+    const [token, setToken] = useState('');
+    const baseUrl = 'http://116.108.44.227/';
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch(baseUrl + 'Account/IsMe/' + '561024910250495', { method: 'GET', headers: { 'Content-Type': 'application/json' } })
+        getData();
+        api();
+    }, [userID, token]);
+
+    const getData = () => {
+        try {
+            AsyncStorage.getItem('@userID').then(id => {
+                if (id != null) { setUser(id); }
+            });
+            AsyncStorage.getItem('@token').then(tk => {
+                if (tk != null) { setToken(tk); }
+            });
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const api = () => {
+        fetch(baseUrl + 'Account/IsMe/' + userID, { method: 'GET', headers: { 'Content-Type': 'application/json' } })
             .then((res) => res.json())
-            .then((resJson) => { setData(resJson); })
-            .catch((error) => { console.log(error); })
-    }, []);
+            .then((resJson) => { setData(resJson);})
+            .catch((error) => { })
+    }
+
+    const logOut = async () => {
+        try {
+            await AsyncStorage.removeItem('@userID');
+            await AsyncStorage.removeItem('@token');
+            navigation.navigate('LoginScreen');
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <View style={{ flex: 1 }} >
@@ -45,9 +76,9 @@ export default function Setting({ navigation }) {
                             <Ionicons name="game-controller-outline" size={40} color={'#ea4335'} />
                             <Text style={{ fontSize: 20, fontWeight: '600' }}>Trò chơi</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{ backgroundColor: '#fff', padding: 10, width: '48.5%', borderRadius: 10, shadowColor: "#000", shadowOffset: { width: 0, height: 2, }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }}>
+                        <TouchableOpacity style={{ backgroundColor: '#fff', padding: 10, width: '48.5%', borderRadius: 10, shadowColor: "#000", shadowOffset: { width: 0, height: 2, }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5 }} onPress={() => navigation.navigate('Group')}>
                             <Ionicons name="earth" size={40} color={'#ea4335'} />
-                            <Text style={{ fontSize: 20, fontWeight: '600' }}>Chúng ta</Text>
+                            <Text style={{ fontSize: 20, fontWeight: '600' }}>Nhóm</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -79,7 +110,7 @@ export default function Setting({ navigation }) {
                 </TouchableOpacity>
             </View>
 
-            <TouchableOpacity style={{ backgroundColor: '#dc3545', margin: 10, padding: 10, alignItems: 'center', borderRadius: 10 }}>
+            <TouchableOpacity style={{ backgroundColor: '#dc3545', margin: 10, padding: 10, alignItems: 'center', borderRadius: 10 }} onPress={logOut}>
                 <Text style={{ fontSize: 20, fontWeight: '600', color: '#fff' }}>Đăng xuất</Text>
             </TouchableOpacity>
 
