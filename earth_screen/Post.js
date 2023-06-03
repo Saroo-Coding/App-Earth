@@ -1,9 +1,8 @@
 import React, { useState, } from "react";
-import { SafeAreaView, TouchableOpacity, View, Text, Image, TextInput, Dimensions, ScrollView } from 'react-native';
+import { SafeAreaView, TouchableOpacity, View, Text, Image, TextInput, ImageBackground, ScrollView } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import * as ImagePicker from 'expo-image-picker';
 import { SelectList } from 'react-native-dropdown-select-list';
-import AutoHeightImage from 'react-native-auto-height-image';
 import { useRoute } from '@react-navigation/native';
 
 export default function Post() {
@@ -55,11 +54,11 @@ export default function Post() {
                     <View style={{ marginVertical: 7, }}>
                         <TextInput editable multiline numberOfLines={5} fontSize={20} placeholder="Bạn đang nghĩ gì ?"></TextInput>
                     </View>
-                    {selectedImage ? <AutoHeightImage resizeMode="cover" width={Dimensions.get("window").width - 33} source={{ uri: selectedImage }} >
+                    {selectedImage ? <ImageBackground resizeMode="cover" style={{ width: '100%', height: 400 }} source={{ uri: selectedImage }} >
                         <TouchableOpacity style={{ flexDirection: 'row', justifyContent:"flex-end", }} onPress={unPicker}>
                             <Ionicons name="close" size={35}  backgroundColor = '#fff'/>
                         </TouchableOpacity>
-                    </AutoHeightImage> : null}
+                    </ImageBackground> : null}
                 </View>
             </ScrollView>
         </SafeAreaView>

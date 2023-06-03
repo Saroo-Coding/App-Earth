@@ -1,6 +1,5 @@
 import React, { useState, useEffect, } from "react";
 import { SafeAreaView, TouchableOpacity, View, Text, ScrollView, Image, TextInput, Dimensions, KeyboardAvoidingView, Keyboard, ActivityIndicator } from 'react-native';
-import AutoHeightImage from 'react-native-auto-height-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRoute } from '@react-navigation/native';
 
@@ -61,7 +60,7 @@ export default function SinglePost({ navigation: { goBack } }) {
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <View>
                             <Text style={{ fontSize: 22, marginHorizontal: 10 }}>{data.content}</Text>
-                            <AutoHeightImage width={autoWidth} style={{ marginTop: 5, }} resizeMode="contain" source={{ uri: data.image1 }}></AutoHeightImage>
+                            <Image style={{ width: '100%', height: 450 }} resizeMode="cover" source={{ uri: data.image1 }}></Image>
                             <View style={{ flexDirection: 'row', padding: 10, justifyContent: "space-between" }}>
                                 <TouchableOpacity style={{ flexDirection: 'row', justifyContent: "center", alignItems: 'center' }}>
                                     <Ionicons name="heart-outline" size={30} color={'#dc3545'} />

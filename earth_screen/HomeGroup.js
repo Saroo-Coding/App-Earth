@@ -3,7 +3,6 @@ import { SafeAreaView, TouchableOpacity, View, Text, ScrollView, Image,Dimension
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRoute } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import AutoHeightImage from 'react-native-auto-height-image';
 
 export default function HomeGroup({ navigation: { goBack }, navigation }) {
     const route = useRoute();
@@ -88,8 +87,8 @@ export default function HomeGroup({ navigation: { goBack }, navigation }) {
                                     </View>
                                 </TouchableOpacity>
                                 <View>
-                                    <Text style={{ fontSize: 20, marginHorizontal: 10  }}>{item.content}</Text>
-                                    <AutoHeightImage width={autoWidth} style={{ marginTop: 5, }} resizeMode="contain" source={{ uri: item.img1 }}></AutoHeightImage>
+                                    <Text style={{ fontSize: 20, marginHorizontal: 10, marginBottom:10  }}>{item.content}</Text>
+                                    <Image style={{ width: '100%', height: 400 }} resizeMode="cover" source={{ uri: item.img1 }}></Image>
                                 </View>
                                 <View style={{ marginTop: 5, flexDirection: 'row', marginHorizontal: 10 }}>
                                     {item.liked == true ?

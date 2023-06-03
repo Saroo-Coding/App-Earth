@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { SafeAreaView, TouchableOpacity, View, Text, ScrollView, Image, ActivityIndicator, Dimensions, RefreshControl } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import AutoHeightImage from 'react-native-auto-height-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import BottomSheet, { BottomSheetTextInput, BottomSheetBackdrop, } from '@gorhom/bottom-sheet';
 
 const baseUrl = 'http://116.108.44.227/';
 
@@ -100,7 +98,7 @@ export default function Home({ navigation }) {
   }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1,marginBottom:100 }}>
       <View style={{ opacity: isOpen ? 0.4 : 1 }} onTouchStart={() => setIsOpen(false)}>
         <SafeAreaView style={{ flexDirection: 'row', justifyContent: "flex-start", alignItems: 'center', backgroundColor: '#fff' }}>
           <Text style={{ fontSize: 28, fontWeight: 'bold', color: '#dc3545', paddingBottom: 10, paddingLeft: 10 }}>Earth</Text>
@@ -132,7 +130,7 @@ export default function Home({ navigation }) {
                   </TouchableOpacity>
                   <View style={{ marginTop: 5, }}>
                     <Text style={{ fontSize: 20, }}>{item.content}</Text>
-                    <AutoHeightImage width={autoWidth - 34} style={{ marginTop: 5, }} resizeMode="contain" source={{ uri: item.image1 }}></AutoHeightImage>
+                    <Image style={{ width: '100%', height: 450 }} resizeMode="cover" source={{ uri: item.image1 }}></Image>
                   </View>
                   <View style={{ marginTop: 5, flexDirection: 'row', }}>
                     {item.liked == true ? 

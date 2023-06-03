@@ -1,6 +1,5 @@
 import React, { useState, useEffect, } from "react";
 import { SafeAreaView, TouchableOpacity, View, Text, ScrollView, Image, Dimensions, } from 'react-native';
-import AutoHeightImage from 'react-native-auto-height-image';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useRoute } from '@react-navigation/native';
 
@@ -38,7 +37,7 @@ export default function Acc({ navigation: { goBack }, navigation }) {
             {/*  */}
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={{ paddingBottom: 80 }}>
-                    <AutoHeightImage width={autoWidth} style={{ marginTop: 5, }} resizeMode="contain" source={{ uri: data.anhBia }}></AutoHeightImage>
+                    <Image style={{ width: '100%', height: 150 }} resizeMode="cover" source={{ uri: data.anhBia }}></Image>
                     <Image style={{ width: 150, height: 150, borderRadius: 100, marginLeft: 10, position: 'absolute', top: '60%' }} resizeMode="cover" source={{ uri: data.avatar }}></Image>
                 </View>
                 <View style={{ padding: 10 }}>
@@ -80,7 +79,7 @@ export default function Acc({ navigation: { goBack }, navigation }) {
                                 </TouchableOpacity>
                                 <View style={{ marginLeft: 5, }}>
                                     <TouchableOpacity>
-                                        <Text style={{ fontSize: 20, }}>{item.fullName}</Text>
+                                        <Text style={{ fontSize: 20 }}>{item.fullName}</Text>
                                     </TouchableOpacity>
                                     <Text style={{ color: '#9a9a9a', }}>{item.datepost} ' 
                                         {item.accessModifier == 'Công khai' ? <Ionicons name="earth" size={20} /> : null}
@@ -90,8 +89,8 @@ export default function Acc({ navigation: { goBack }, navigation }) {
                                 </View>
                             </TouchableOpacity>
                             <View style={{ marginTop: 5, }}>
-                                <Text style={{ fontSize: 20, marginHorizontal: 10 }}>{item.content}</Text>
-                                <AutoHeightImage width={autoWidth} style={{ marginTop: 5, }} resizeMode="contain" source={{ uri: item.image1 }}></AutoHeightImage>
+                                <Text style={{ fontSize: 20, marginHorizontal: 10,marginBottom:10 }}>{item.content}</Text>
+                                <Image style={{ width: '100%', height: 450 }} resizeMode="cover" source={{ uri: item.image1 }}></Image>
                             </View>
                             <View style={{ marginTop: 5, flexDirection: 'row', marginHorizontal: 10 }}>
                                 <TouchableOpacity style={{ flexDirection: 'row', justifyContent: "center", alignItems: 'center' }}>
